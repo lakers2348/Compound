@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>有代價地就罪行不予檢控計算器</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .calculator {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .calc-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eceef1;
+        }
+
+        .item-label {
+            color: #2c3e50;
+            font-size: 15px;
+            width: 65%;
+            line-height: 1.4;
+        }
+
+        .item-value {
+            font-weight: 500;
+            text-align: right;
+            width: 35%;
+            color: #1a73e8;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #dfe3e8;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: right;
+            color: #2c3e50;
+        }
+
+        input:focus {
+            border-color: #1a73e8;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+        }
+
+        .unit {
+            color: #64748b;
+            font-size: 0.9em;
+            margin-left: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <!-- 輸入項 -->
+        <div class="calc-item">
+            <div class="item-label">a. 檢取香煙總數</div>
+            <div class="item-value">
+                <input type="number" id="totalCigarettes" placeholder="0">
+            </div>
+        </div>
+
+        <!-- 計算結果 -->
+        <div class="calc-item">
+            <div class="item-label">b. 除19枝免稅額以外的香煙數量<br><small>(a - 19)</small></div>
+            <div class="item-value"><span id="b">-</span></div>
+        </div>
+
+        <div class="calc-item">
+            <div class="item-label">c. 香煙金額<br><small>(每根$4.1)</small></div>
+            <div class="item-value">$<span id="c">-</span></div>
+        </div>
+
+        <div class="calc-item">
+            <div class="item-label">d. 香煙應課稅額<br><small>(每根$3.306)</small></div>
+            <div class="item-value">$<span id="d">-</span></div>
+        </div>
+
+        <div class="calc-item">
+            <div class="item-label">e. 應課稅額5倍罰款<br><small>(5倍計算)</small></div>
+            <div class="item-value">$<span id="e">-</span></div>
+        </div>
+
+        <div class="calc-item">
+            <div class="item-label">f. 未申報定額罰款</div>
+            <div class="item-value">$2,000</div>
+        </div>
+
+        <div class="calc-item" style="border-bottom:none;">
+            <div class="item-label" style="font-weight:600;">g. 罰款總額<br><small>(e + f)</small></div>
+            <div class="item-value" style="color:#d32f2f;font-weight:600;">$<span id="g">-</span></div>
+        </div>
+    </div>
+
+    <script>
+        function formatNumber(num) {
+            return num.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function calculate() {
+            // 獲取輸入值
+            const a = parseInt(document.getElementById('totalCigarettes').value) || 0;
+
+            // 分步計算
+            const b = Math.max(a - 19, 0);  // 確保不低於0
+            const c = b * 4.1;
+            const d = b * 3.306;
+            const e = d * 5;
+            const f = 2000;
+            const g = e + f;
+
+            // 更新顯示
+            document.getElementById('b').textContent = b;
+            document.getElementById('c').textContent = formatNumber(c);
+            document.getElementById('d').textContent = formatNumber(d);
+            document.getElementById('e').textContent = formatNumber(e);
+            document.getElementById('g').textContent = formatNumber(g);
+        }
+
+        // 即時計算
+        document.getElementById('totalCigarettes').addEventListener('input', calculate);
+    </script>
+</body>
+</html>
